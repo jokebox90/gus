@@ -1,0 +1,5 @@
+arrow
+pyramid
+pyramid_jinja2
+pyramid_sqlalchemy
+minio
