@@ -1,0 +1,16 @@
+FROM node:lts-bullseye-slim as builder
+
+ARG scheme
+ARG domain
+
+ENV REACT_APP_SCHEME ${scheme}
+ENV REACT_APP_DOMAIN ${domain}
+
+COPY . /app/
+WORKDIR /app/
+RUN yarn install
+RUN yarn build
+
+FROM nginx:1.23
+COPY --from=builder /app/build /usr/share/nginx/html
+COPY ./docker/nginx-default.conf /etc/nginx/conf.d/default.conf

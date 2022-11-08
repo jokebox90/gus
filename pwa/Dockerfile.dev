@@ -1,0 +1,23 @@
+FROM node:lts-bullseye-slim as builder
+
+ARG scheme
+ARG domain
+
+ENV REACT_APP_SCHEME ${scheme}
+ENV REACT_APP_DOMAIN ${domain}
+
+COPY . /app/
+WORKDIR /app/
+
+RUN yarn install
+
+COPY ./docker/entrypoint.sh /usr/libexec/docker/entrypoint
+RUN chmod +x /usr/libexec/docker/entrypoint
+
+COPY ./docker/run.sh /usr/libexec/docker/run
+RUN chmod +x /usr/libexec/docker/run
+
+EXPOSE 3000
+ENV PORT 3000
+
+CMD [ "/usr/libexec/docker/run" ]

@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+
+  pwa:
+    image: docker.petitboutde.cloud/repository/jokebox90/gus-pwa
+    build:
+      context: ./pwa
+      dockerfile: ./Dockerfile.${ENV:-prod}
+      args:
+        scheme: ${SCHEME}
+        domain: ${ENDPOINT}
+    restart: always
+    environment:
+      WATCHPACK_POLLING: 'true'
+      WDS_SOCKET_HOST: '127.0.0.1'
+    volumes:
+      - './pwa/src:/app/src'
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+  api:
+    build: ./api
+    image: docker.petitboutde.cloud/repository/jokebox90/gus-api
+    restart: always
+    environment:
+      SCHEME: ${SCHEME}
+      DOMAIN: ${DOMAIN}
+      CACHE_URL: ${CACHE_URL}
+      DATABASE_URL: ${DATABASE_URL}
+      MINIO_SERVER_URL: ${MINIO_SERVER_URL}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_DISABLE_TLS: ${MINIO_DISABLE_TLS}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+      PYRAMID_RELOAD_TEMPLATES: ${PYRAMID_RELOAD_TEMPLATES}
+      SESSION_KEY: ${SESSION_KEY}
+      SESSION_SECRET: ${SESSION_SECRET}
+      SESSION_URL: ${SESSION_URL}
+    volumes:
+      - ./api/gallery_by_jokebox90:/webapp/gallery_by_jokebox90
+      - migrations:/webapp/gallery_by_jokebox90/alembic/versions
+    ports:
+      - 6543:6543
+      - 5678:5678
+
+  minio:
+    image: quay.io/minio/minio:RELEASE.2022-10-29T06-21-33Z
+    command: server /data --console-address ":9001"
+    ports:
+      - "9090:9000"
+      - "9091:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
+      MINIO_BROWSER_REDIRECT_URL: ''
+      MINIO_SERVER_URL: ''
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    volumes:
+      - minio:/data
+
+  redis:
+    build: ./redis
+    image: docker.petitboutde.cloud/repository/jokebox90/gus-redis
+    restart: always
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: r00t!
+      MARIADB_DATABASE: development
+      MARIADB_USER: pyramid
+      MARIADB_PASSWORD: pyramid
+    volumes:
+      - db:/var/lib/mysql
+
+  adminer:
+    build: ./adminer
+    image: docker.petitboutde.cloud/repository/jokebox90/gus-adminer
+    restart: always
+    ports:
+      - '8080:8080'
+
+  mailer:
+    image: schickling/mailcatcher
+    ports:
+      - '1025:1025'
+      - '1080:1080'
+
+volumes:
+  db:
+  minio:
+  migrations:
