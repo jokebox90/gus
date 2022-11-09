@@ -1,5 +1,7 @@
 import axios from "axios";
+import _ from "lodash";
 import toast from "react-hot-toast";
+import useSWR from "swr";
 
 export const scheme = process.env.REACT_APP_SCHEME;
 export const domain = process.env.REACT_APP_DOMAIN;
@@ -20,3 +22,13 @@ export const fetcher = (url) => {
 
 export const notifySuccess = (msg) => toast.success(msg);
 export const notifyError = (msg) => toast.error(msg);
+
+export const useMediaList = ({ purge }) => {
+  const target = purge ? `${baseUrl}?CACHE_PURGE=1` : baseUrl;
+  const { data, error } = useSWR(target, fetcher);
+  return {
+    data: data,
+    isLoading: !data && !error,
+    isError: error,
+  };
+};
