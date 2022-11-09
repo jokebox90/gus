@@ -6,7 +6,13 @@ import { Formik, Form, FieldArray, Field } from "formik";
 import _ from "lodash";
 import "../styles/Bucket.css";
 import useSWR, { useSWRConfig } from "swr";
-import { baseUrl, fetcher, http, notifyError, notifySuccess } from "../services";
+import {
+  baseUrl,
+  fetcher,
+  http,
+  notifyError,
+  notifySuccess,
+} from "../services";
 import Navbar from "./Navbar";
 
 const useMediaList = ({ purge }) => {
@@ -317,8 +323,24 @@ const Gallery = (props) => {
 
                 <div className="modal-content">
                   <div className="box">
-                    <div className="is-flex is-justify-content-center">
-                      <img src={obj.url} alt="" />
+                    <div className="is-flex is-align-items-center">
+                      {_.startsWith(obj.content_type, "video") ? (
+                        <video
+                          style={{
+                            width: "100%",
+                            maxHeight: "340px",
+                          }}
+                          autoPlay={false}
+                          controls={true}
+                          muted={false}
+                          loop={false}
+                        >
+                          <source src={obj.url} type={obj.content_type} />
+                          Oups, le navigateur ne support pas les vidéos HTML5.
+                        </video>
+                      ) : (
+                        <img src={obj.url} alt={obj.title} />
+                      )}
                     </div>
 
                     <p className="has-text-weight-bold has-text-centered mt-3 mb-5">
@@ -405,7 +427,24 @@ const Gallery = (props) => {
             ) : null}
 
             <div className="box p-0" style={{ overflow: "hidden" }}>
-              <img onClick={() => handleOpen()} src={obj.url} alt="" />
+              {_.startsWith(obj.content_type, "video") ? (
+                <video
+                  style={{
+                    width: "100%",
+                    maxHeight: "160px",
+                  }}
+                  autoPlay={false}
+                  controls={true}
+                  muted={false}
+                  loop={false}
+                  onClick={() => handleOpen()}
+                >
+                  <source src={obj.url} type={obj.content_type} />
+                  Oups, le navigateur ne support pas les vidéos HTML5.
+                </video>
+              ) : (
+                <img onClick={() => handleOpen()} src={obj.url} alt={obj.title} />
+              )}
 
               <div
                 className="px-1 py-3 has-text-centered has-text-white has-background-link"
@@ -441,9 +480,9 @@ const Bucket = () => {
     modalActive: {},
     modalUploadActive: false,
   });
-  const [ searchParams ] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const { data, isLoading, isError } = useMediaList({
-    purge: Boolean(searchParams.get("CACHE_PURGE"))
+    purge: Boolean(searchParams.get("CACHE_PURGE")),
   });
 
   if (isLoading) return <p>En cours de chargement...</p>;
