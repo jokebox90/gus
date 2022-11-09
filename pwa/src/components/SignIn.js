@@ -3,39 +3,20 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Field, Form, Formik } from "formik";
-import * as Yup from "yup";
-import { http, notifyError, notifySuccess } from "./services";
+import { http, notifyError } from "../services";
 
-const SignupSchema = Yup.object().shape({
-  email: Yup.string()
-    .trim()
-    .email("Adresse email invalide")
-    .required("Adresse email requise"),
-  username: Yup.string()
-    .trim()
-    .min(2, "Identifiant trop court")
-    .max(50, "Identifiant trop long")
-    .required("Identifiant requis"),
-  password: Yup.string()
-    .trim()
-    .min(8, "Mot de passe trop court")
-    .required("Mot de passe requis"),
-});
-
-const SignUp = () => {
+const SignIn = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const initialValues = { username: "", password: "", email: "" };
-  const handleSignUp = (values) => {
+  const initialValues = { username: "", password: "" };
+  const handleSignIn = (values) => {
     http
-      .post("/sign-up", {
+      .post("/sign-in", {
         username: values.username,
         password: values.password,
-        email: values.email,
       })
       .then(() => {
-        notifySuccess("Inscription OK");
-        navigate("/sign-in");
+        navigate("/bucket");
       })
       .catch(({ code, config, message, response }) => {
         notifyError(message);
@@ -43,41 +24,14 @@ const SignUp = () => {
   };
 
   return (
-    <div className="box mb-5 mx-3" style={{ width: "50%" }}>
-      <p className="subtitle has-text-centered has-text-dark">S'inscrire</p>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSignUp}
-        validationSchema={SignupSchema}
-      >
-        {({ errors, touched }) => {
-          return (
+    <div className="columns is-gapless is-centered" style={{ width: "100%" }}>
+      <div className="column is-3-desktop">
+        <div className="box mb-5 mx-3">
+          <p className="subtitle has-text-centered has-text-dark">
+            Se connecter
+          </p>
+          <Formik initialValues={initialValues} onSubmit={handleSignIn}>
             <Form>
-              <div className="field">
-                <label htmlFor="inputEmail" className="label">
-                  Email
-                </label>
-
-                <div className="field has-addons">
-                  <div className="control">
-                    <div className="button is-light">
-                      <span className="icon">
-                        <i className="fa-solid fa-at"></i>
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="control is-expanded">
-                    <Field
-                      id="inputEmail"
-                      type="text"
-                      className="input is-small"
-                      name={`email`}
-                    />
-                  </div>
-                </div>
-              </div>
-
               <div className="field">
                 <label htmlFor="inputUsername" className="label">
                   Identifiant
@@ -152,33 +106,20 @@ const SignUp = () => {
 
               <div className="buttons is-centered mt-3">
                 <button type="submit" className="button is-success is-small">
-                  Inscrption
+                  Se connecter
                 </button>
               </div>
-
-              <ul>
-                {errors.email && touched.email ? (
-                  <li className="has-text-danger">{errors.email}</li>
-                ) : null}
-                {errors.username && touched.username ? (
-                  <li className="has-text-danger">{errors.username}</li>
-                ) : null}
-                {errors.password && touched.password ? (
-                  <li className="has-text-danger">{errors.password}</li>
-                ) : null}
-              </ul>
+              <div className="content">
+                <p>
+                  <Link to="/sign-up">Inscrivez-vous</Link>
+                </p>
+              </div>
             </Form>
-          );
-        }}
-      </Formik>
-
-      <div className="content">
-        <p>
-          <Link to="/sign-in">Connectez-vous</Link>
-        </p>
+          </Formik>
+        </div>
       </div>
     </div>
   );
 };
 
-export default SignUp;
+export default SignIn;

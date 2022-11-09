@@ -3,7 +3,6 @@ import logging
 import os
 import shlex
 import shutil
-import stringcase
 import subprocess
 import uuid
 from collections import OrderedDict

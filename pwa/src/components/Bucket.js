@@ -4,9 +4,10 @@ import { useState, Fragment, createRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Formik, Form, FieldArray, Field } from "formik";
 import _ from "lodash";
-import "./Bucket.css";
+import "../styles/Bucket.css";
 import useSWR, { useSWRConfig } from "swr";
-import { baseUrl, fetcher, http, notifyError, notifySuccess } from "./services";
+import { baseUrl, fetcher, http, notifyError, notifySuccess } from "../services";
+import Navbar from "./Navbar";
 
 const useMediaList = ({ purge }) => {
   const target = purge ? `${baseUrl}?CACHE_PURGE=1` : baseUrl;
@@ -478,6 +479,8 @@ const Bucket = () => {
 
   return (
     <Fragment>
+      <Navbar />
+
       <div id="Bucket" className="has-background-black">
         <Hero />
         <Heading s3objects={data.s3objects} />
