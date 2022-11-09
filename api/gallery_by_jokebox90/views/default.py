@@ -139,6 +139,7 @@ def index_view(request):
         s3object["description"] = meta.description
         s3object["unique_id"] = meta.unique_id
         s3object["url"] = meta.url
+        s3object["content_type"] = meta.file_type
         s3object["name"] = meta.name
         s3object["created_at"] = meta.created_at
         s3object["modified_at"] = meta.modified_at
