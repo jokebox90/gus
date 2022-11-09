@@ -2,10 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from "react-router-dom";
 import "./styles/fontawesome/free/web/css/all.css";
-import "bulma";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import './styles/index.css';
+import './styles/index.sass';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

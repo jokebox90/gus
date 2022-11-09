@@ -6,7 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import { useMediaList } from "../services";
 import Navbar from "./Navbar";
 import Hero from "./Hero";
-import "../styles/Bucket.css";
+import "../styles/Bucket.sass";
 import Heading from "./Heading";
 import Gallery from "./Gallery";
 

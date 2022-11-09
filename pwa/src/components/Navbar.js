@@ -1,7 +1,7 @@
 // pwa/src/App.js
 
 import { Link } from "react-router-dom";
-import "../styles/Navbar.css";
+import "../styles/Navbar.sass";
 
 const Navbar = () => {
   return (
