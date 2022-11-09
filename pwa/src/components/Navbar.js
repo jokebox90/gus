@@ -20,7 +20,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div class="navbar-menu">
+      <div className="navbar-menu">
         <div className="navbar-start">
           <div className="navbar-item">
             <Link to="/bucket" className="navbar-link is-arrowless">
