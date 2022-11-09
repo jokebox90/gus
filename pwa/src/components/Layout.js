@@ -1,14 +1,12 @@
 // pwa/src/App.js
 
 import { Fragment } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Navbar from "./Navbar";
 import "../styles/Layout.css";
 
 const Layout = () => {
-  const navigate = useNavigate();
-
   return (
     <Fragment>
       <Toaster position="bottom-right" reverseOrder={false} />

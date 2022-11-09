@@ -41,7 +41,7 @@ const Uploader = () => {
       );
     });
 
-    const { data, status, message } = await http.put(null, form, {
+    const { status, message } = await http.put(null, form, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

@@ -1,7 +1,7 @@
 // gallery\assets\pages\index.js
 
 import _ from "lodash";
-import { useState, Fragment, createRef } from "react";
+import { useState, Fragment } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useMediaList } from "../services";
 import Navbar from "./Navbar";

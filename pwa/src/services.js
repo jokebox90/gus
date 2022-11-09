@@ -1,5 +1,4 @@
 import axios from "axios";
-import _ from "lodash";
 import toast from "react-hot-toast";
 import useSWR from "swr";
 
