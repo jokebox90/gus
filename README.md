@@ -1,6 +1,6 @@
 # Gus
 
-**GRaphical User Storage**
+**Graphical User Storage**
 
 À propos de Gus.
 
