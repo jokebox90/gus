@@ -107,7 +107,7 @@ const Gallery = (props) => {
                     </p>
 
                     <p>
-                      <a href={obj.url}>Afficher</a>
+                      <a href={obj.url} target="_blank">Afficher</a>
                     </p>
 
                     <Formik initialValues={obj} onSubmit={handleSubmit}>
