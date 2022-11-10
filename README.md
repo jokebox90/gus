@@ -2,6 +2,8 @@
 
 **Graphical User Storage**
 
+Plateau de jeu => https://gus.petitboutde.cloud
+
 À propos de Gus.
 
 Gus, certainement le meilleur service de gestion et de partage de photos en ligne, s'est fixé comme objectif principal : permettre aux gens de partager leurs photos avec les personnes de leur choix.
