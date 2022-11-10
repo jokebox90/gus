@@ -32,7 +32,7 @@ const SignIn = () => {
 
   return (
     <Fragment>
-      <Hero />
+      <Hero hasNavbarFixedTop />
       <div className="columns is-gapless is-centered" style={{ width: "100%" }}>
         <div className="column is-3-desktop">
           <div className="box mb-5 mx-3">

@@ -45,7 +45,7 @@ const SignUp = () => {
 
   return (
     <Fragment>
-      <Hero />
+      <Hero hasNavbarFixedTop />
       <div className="columns is-gapless is-centered" style={{ width: "100%" }}>
         <div className="column is-4-desktop">
           <div className="box mb-5">
