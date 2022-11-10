@@ -4,8 +4,6 @@ import _ from "lodash";
 import { useState, Fragment } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useMediaList } from "../services";
-import Navbar from "./Navbar";
-import Hero from "./Hero";
 import "../styles/Bucket.sass";
 import Heading from "./Heading";
 import Gallery from "./Gallery";
@@ -55,10 +53,22 @@ const Bucket = () => {
 
   return (
     <Fragment>
-      <Navbar />
-
       <div id="Bucket" className="has-background-black">
-        <Hero />
+        <div className="hero is-halfheight is-dark">
+          <div className="hero-body is-align-items-end">
+            <div className="content">
+              <p className="subtitle is-size-4 has-text-grey">Bienvenue</p>
+              <p className="title is-size-1 my-5">Liste des médias</p>
+              <p className="is-size-5 has-text-weight-bold">
+                <span className="icon mr-2">
+                  <i className="fa-solid fa-circle-arrow-right" />
+                </span>
+                Cliquez pour visualiser.
+              </p>
+            </div>
+          </div>
+        </div>
+
         <Heading s3objects={data.s3objects} />
 
         <div

@@ -1,31 +1,37 @@
 // pwa/src/App.js
 
-import { Fragment } from "react";
-import { Outlet } from "react-router-dom";
+import { Fragment, useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Navbar from "./Navbar";
 import "../styles/Layout.sass";
+import _ from "lodash";
+import { selectUser } from "../features/authSlice";
+import { useSelector } from "react-redux";
 
 const Layout = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const user = useSelector(selectUser);
+
+  useEffect(() => {
+    const paths = [
+      "/sign-in",
+      "/sign-up",
+      "/about",
+    ];
+
+    if (!_.includes(paths, location.pathname) && user.status !== "connected") {
+      navigate('/sign-in');
+    }
+  }, [location]);
+
   return (
     <Fragment>
       <Toaster position="bottom-right" reverseOrder={false} />
-
       <Navbar />
-
-      <div id="Home">
-        <div className="hero is-fullheight">
-          <div className="hero-body is-flex-direction-column is-align-items-center">
-            <div className="section">
-              <h1 className="title has-text-centered">Gus</h1>
-              <h2 className="subtitle has-text-centered">
-                Graphical User Storage
-              </h2>
-            </div>
-
-            <Outlet />
-          </div>
-        </div>
+      <div id="Layout">
+        <Outlet />
       </div>
     </Fragment>
   );

@@ -1,12 +1,25 @@
 // pwa/src/App.js
 
-import { Link } from "react-router-dom";
+import { Fragment } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser, disconnected } from "../features/authSlice";
 import "../styles/Navbar.sass";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+
+  const handleDisconnect = () => {
+    dispatch(disconnected());
+    navigate("/sign-in");
+  };
+
   return (
     <nav
-      className="navbar is-dark"
+      id="Navbar"
+      className="navbar is-fixed-top is-primary"
       role="navigation"
       aria-label="main navigation"
     >
@@ -34,9 +47,23 @@ const Navbar = () => {
 
         <div className="navbar-end">
           <div className="navbar-item">
-            <Link to="/sign-up" className="navbar-link is-arrowless">
-              Inscription
-            </Link>
+            {user.status === "connected" ? (
+              <p
+                className="navbar-link is-arrowless"
+                onClick={() => handleDisconnect()}
+              >
+                Se déconnecter
+              </p>
+            ) : (
+              <Fragment>
+                <Link to="/sign-in" className="navbar-link is-arrowless">
+                  Connexion
+                </Link>
+                <Link to="/sign-up" className="navbar-link is-arrowless">
+                  Inscription
+                </Link>
+              </Fragment>
+            )}
           </div>
         </div>
       </div>

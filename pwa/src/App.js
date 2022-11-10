@@ -7,6 +7,8 @@ import Layout from "./components/Layout";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import Page404 from "./404";
+import "./styles/fontawesome/free/web/css/all.css";
+import './styles/App.sass';
 
 const App = () => {
   return (
@@ -16,8 +18,8 @@ const App = () => {
         <Route path="sign-in" element={<SignIn />} />
         <Route path="sign-up" element={<SignUp />} />
         <Route path="about" element={<About />} />
+        <Route path="/bucket" element={<Bucket />} />
       </Route>
-      <Route path="/bucket" element={<Bucket />} />
       <Route path="*" element={<Page404 />} />
     </Routes>
   );
