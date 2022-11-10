@@ -1,15 +1,16 @@
 // pwa/src/App.js
 
+import _ from "lodash";
 import { Fragment, useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { Toaster } from "react-hot-toast";
+import { selectUser, synchronized } from "../features/authSlice";
 import Navbar from "./Navbar";
 import "../styles/Layout.sass";
-import _ from "lodash";
-import { selectUser } from "../features/authSlice";
-import { useSelector } from "react-redux";
 
 const Layout = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const user = useSelector(selectUser);
@@ -23,6 +24,15 @@ const Layout = () => {
 
     if (!_.includes(paths, location.pathname) && user.status !== "connected") {
       navigate('/sign-in');
+    }
+  }, [location]);
+
+  useEffect(() => {
+    const local = JSON.parse(localStorage.getItem("gus:local"));
+    const hasLocalStorageData = _.isNil(local);
+    const hasReduxStateData = _.isEqual(_.get(local, "status"), _.get(user, "status"));
+    if (!hasLocalStorageData && !hasReduxStateData) {
+      dispatch(synchronized());
     }
   }, [location]);
 

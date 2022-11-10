@@ -1,14 +1,17 @@
 // gallery\assets\pages\index.js
 
 import _ from "lodash";
-import { useState, Fragment } from "react";
+import { useState, Fragment, useReducer } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { useMediaList } from "../services";
-import "../styles/Bucket.sass";
+import { selectUser } from "../features/authSlice";
 import Heading from "./Heading";
 import Gallery from "./Gallery";
+import "../styles/Bucket.sass";
 
 const Bucket = () => {
+  const user = useSelector(selectUser);
   const [state, setState] = useState({
     currentPage: 0,
     modalActive: {},
@@ -58,13 +61,7 @@ const Bucket = () => {
           <div className="hero-body is-align-items-end">
             <div className="content">
               <p className="subtitle is-size-4 has-text-grey">Bienvenue</p>
-              <p className="title is-size-1 my-5">Liste des médias</p>
-              <p className="is-size-5 has-text-weight-bold">
-                <span className="icon mr-2">
-                  <i className="fa-solid fa-circle-arrow-right" />
-                </span>
-                Cliquez pour visualiser.
-              </p>
+              <p className="title is-size-1 my-5">@{user.username}</p>
             </div>
           </div>
         </div>

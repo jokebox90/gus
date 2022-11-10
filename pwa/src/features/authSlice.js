@@ -13,19 +13,28 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     connected: (state, action) => {
-      state = _.assign(state, {
+      const local = {
         status: "connected",
         username: action.payload.username,
-      });
+      };
+
+      localStorage.setItem("gus:local", JSON.stringify(local));
+      state = _.assign(state, local);
     },
 
     disconnected: (state) => {
+      localStorage.setItem("gus:local", JSON.stringify(initialState));
       _.assign(state, initialState);
+    },
+
+    synchronized: (state) => {
+      const local = JSON.parse(localStorage.getItem("gus:local"));
+      _.assign(state, local);
     },
   },
 });
 
-export const { connected, disconnected } = authSlice.actions
+export const { connected, disconnected, synchronized } = authSlice.actions;
 
 export const selectUser = (state) => state.auth;
 
