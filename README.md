@@ -14,9 +14,79 @@ Pour ce faire , vous pouvez ajouter vos photos et vos vidéos à partir d’un m
 
 ## Services applicatifs
 
-* React / Redux
-* Pyramid (Python)
-* MinIO
-* MySQL
+* React / Redux: http://localhost:3000/
+* Pyramid (Python): http://localhost:6543/
+* MinIO:
+    * Console: http://localhost:9090
+    * Serveur: http://localhost:9091
+    * Root User: minio
+    * Root Pass: minio123
+* MySQL:
+    * Base: development
+    * Serveur: db:3306
+    * Root User: root
+    * Root Pass: r00t!
 * Redis
 * Adminer
+
+### Pré-requis
+
+- VSCode (ou autre IDE),
+- Git,
+- Docker Engine / Docker Desktop.
+
+### Cloner le projet
+
+```bash
+cd ~/Code
+
+git clone https://github.com/jokebox90/gus.git gus
+
+cd gus
+ls
+```
+
+### Affichage de la configuration
+
+```bash
+docker-compose config --volumes
+docker-compose config --services
+```
+
+### Démarrage des services
+
+```bash
+docker-compose up -d --build
+```
+
+### Affichage des messages envoyés par les services
+
+```bash
+docker-compose logs -t <nom-du-service>
+```
+
+Pour _la pwa_.
+
+```bash
+docker-compose logs -t pwa
+```
+
+Pour _l'api_.
+
+```bash
+docker-compose logs -t api
+```
+
+### Arrêt des services
+
+```bash
+docker-compose down
+```
+
+### Nettoyage complet
+
+Supprime toute les applications et les données.
+
+```bash
+docker-compose down --volumes --rmi all --remove-orphans
+```
