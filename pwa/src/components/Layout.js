@@ -11,21 +11,8 @@ import "../styles/Layout.sass";
 
 const Layout = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const location = useLocation();
   const user = useSelector(selectUser);
-
-  useEffect(() => {
-    const paths = [
-      "/sign-in",
-      "/sign-up",
-      "/about",
-    ];
-
-    if (!_.includes(paths, location.pathname) && user.status !== "connected") {
-      navigate('/sign-in');
-    }
-  }, [location]);
 
   useEffect(() => {
     const local = JSON.parse(localStorage.getItem("gus:local"));

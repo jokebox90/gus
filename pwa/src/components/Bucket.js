@@ -1,16 +1,17 @@
 // gallery\assets\pages\index.js
 
 import _ from "lodash";
-import { useState, Fragment, useReducer } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useState, Fragment, useReducer, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useMediaList } from "../services";
 import { selectUser } from "../features/authSlice";
 import Heading from "./Heading";
 import Gallery from "./Gallery";
 import "../styles/Bucket.sass";
+import Hero from "./Hero";
 
-const Bucket = () => {
+const BucketDisplay = () => {
   const user = useSelector(selectUser);
   const [state, setState] = useState({
     currentPage: 0,
@@ -123,6 +124,41 @@ const Bucket = () => {
       </div>
     </Fragment>
   );
+};
+
+const BucketRedirect = () => {
+  const [text, setText] = useState("");
+  const [counter, setCounter] = useState(1);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let intervalID = setInterval(() => {
+      setCounter(counter+1);
+      setText(_.join(_.map(_.range(counter), () => "."), ""));
+    }, 1000);
+
+    if (counter === 5) {
+      navigate("/sign-in");
+    }
+
+    return () => {
+      if (intervalID) {
+        clearInterval(intervalID);
+      }
+    };
+  });
+
+  return <Hero size="fullheight" title="Non connecté" subtitle={"Redirection" + text} />;
+};
+
+const Bucket = () => {
+  const user = useSelector(selectUser);
+
+  if (user.status !== "connected") {
+    return <BucketRedirect />;
+  } else {
+    return <BucketDisplay />;
+  }
 };
 
 export default Bucket;
