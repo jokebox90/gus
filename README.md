@@ -17,17 +17,23 @@ Pour ce faire , vous pouvez ajouter vos photos et vos vidéos à partir d’un m
 * React / Redux: http://localhost:3000/
 * Pyramid (Python): http://localhost:6543/
 * MinIO:
-    * Console: http://localhost:9090
-    * Serveur: http://localhost:9091
-    * Root User: minio
-    * Root Pass: minio123
+  * Console: http://localhost:9091
+  * Serveur: http://localhost:9090
+  * Root User: minio
+  * Root Pass: minio123
 * MySQL:
-    * Base: development
-    * Serveur: db:3306
-    * Root User: root
-    * Root Pass: r00t!
-* Redis
-* Adminer
+  * Console: http://localhost:8080/
+  * Serveur: db:3306
+  * Base: development
+  * Root User: root
+  * Root Pass: r00t!
+* Redis:
+  * Accès à la ligne de commande pour manipuler Redis:
+
+    ```bash
+    docker-compose exec redis bash
+    ```
+
 
 ### Pré-requis
 
